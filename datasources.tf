@@ -1,3 +1,13 @@
+data "terraform_remote_state" "management_networks" {
+  backend   = "s3"
+  config = {
+    bucket         = "s3bucket-aws-wmakarzak01"
+    key            = "terraform.tfstate"
+    region         = "eu-central-1"
+    dynamodb_table = "aws-locks-wmakarzak"
+  }
+}
+
 data "aws_vpc" "vpc" {
   filter {
     name   = "tag:Name"
@@ -19,17 +29,3 @@ data "aws_subnet_ids" "sql_subnet" {
   }
 }
 
-# data "aws_iam_policy_document" "rds_enhanced_monitoring" {
-#   statement {
-#     actions = [
-#       "sts:AssumeRole",
-#     ]
-
-#     effect = "Allow"
-
-#     principals {
-#       type        = "Service"
-#       identifiers = ["monitoring.rds.amazonaws.com"]
-#     }
-#   }
-# }
